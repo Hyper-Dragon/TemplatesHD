@@ -1,0 +1,4 @@
+ConsoleTemplateWithDiAndParamsVer1
+
+Console app template with support for Dependency Injection, Reading params from the command line and configurable screen flow.
+
