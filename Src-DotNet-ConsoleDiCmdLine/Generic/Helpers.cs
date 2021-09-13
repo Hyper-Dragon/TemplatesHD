@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ConsoleTemplate.Generic.AutoRegisterAttribute;
+using static PgnArtist.Generic.AutoRegisterAttribute;
 
-namespace ConsoleTemplate.Generic
+namespace PgnArtist.Generic
 {
     [AutoRegister(RegistrationType.SINGLETON)]
     public sealed class Helpers
@@ -23,7 +23,7 @@ namespace ConsoleTemplate.Generic
         public void PressToContinue()
         {
             if (_globalSettings.ShouldBeepOnEnd && !Console.IsOutputRedirected) Console.Beep();
-            
+
             Console.Write("<Press a Key>");
             Console.ReadKey(true);
         }
@@ -48,10 +48,10 @@ namespace ConsoleTemplate.Generic
                 Console.WriteLine(sb.ToString());
                 Console.ResetColor();
 
-                if (!isHeader)
-                {
-                    Console.WriteLine("");
-                }
+                //if (!isHeader)
+                //{
+                //    Console.WriteLine("");
+                //}
             }
         }
 

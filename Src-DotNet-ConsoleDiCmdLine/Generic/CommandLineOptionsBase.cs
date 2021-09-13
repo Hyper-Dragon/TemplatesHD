@@ -1,7 +1,7 @@
 ﻿using CommandLine;
 using System.Text;
 
-namespace ConsoleTemplate.Generic
+namespace PgnArtist.Generic
 {
     public abstract class CommandLineOptionsBase
     {
@@ -37,7 +37,9 @@ namespace ConsoleTemplate.Generic
 
                 foreach (var prop in this.GetType().GetProperties())
                 {
-                    sl.Add((prop.Name, prop.GetValue(this)?.ToString() ?? "-"));
+                    var nameSb = new StringBuilder(prop.Name[0].ToString());
+                    prop.Name[1..].ToCharArray().ToList().ForEach((letter) => { nameSb.Append((char.IsUpper(letter) ? $" {letter}":$"{letter}")); } );
+                    sl.Add((nameSb.ToString(), prop.GetValue(this)?.ToString() ?? "-"));
                 }
 
                 int maxPropLength = sl.Max((prop) => { return prop.param.Length; });

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleTemplate.Generic
+namespace PgnArtist.Generic
 {
     public abstract record GlobalSettingsBase
     {

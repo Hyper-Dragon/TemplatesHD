@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
-namespace ConsoleTemplate.Generic
+namespace PgnArtist.Generic
 {
     public static class HelpersStatic
     {

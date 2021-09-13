@@ -1,4 +1,5 @@
-﻿namespace ConsoleTemplate.Generic
+﻿
+namespace PgnArtist.Generic
 {
     [AttributeUsage(AttributeTargets.Class)]
     internal class AutoRegisterAttribute : Attribute

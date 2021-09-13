@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace ConsoleTemplate.Generic
+namespace PgnArtist.Generic
 {
     public abstract class ConsoleApplicationBase
     {
@@ -17,12 +17,15 @@ namespace ConsoleTemplate.Generic
             _helpers = helpers;
         }
 
-        protected virtual async Task PreRunImplAsync(CommandLineOptions commandLineOptions)
+        protected virtual async Task<bool> PreRunImplAsync(CommandLineOptions commandLineOptions)
         {
             await Task.Run(() =>
             {
                 throw new NotImplementedException("This console app has not been fully implemented!");
+                
             });
+
+            return true;
         }
 
         protected virtual Task<int> RunImplAsync(CommandLineOptions commandLineOptions)
@@ -30,33 +33,41 @@ namespace ConsoleTemplate.Generic
             throw new NotImplementedException("This console app has not been fully implemented!");
         }
 
-        protected virtual async Task PostRunImplAsync(CommandLineOptions commandLineOptions)
+        protected virtual async Task<bool> PostRunImplAsync(CommandLineOptions commandLineOptions)
         {
             await Task.Run(() =>
             {
                 throw new NotImplementedException("This console app has not been fully implemented!");
             });
+
+            return true;
         }
 
         private async Task<int> RunAsync(CommandLineOptions opts)
         {
+            bool preRunSuccess = true;
+            int returnVal = -100;
+
             if (_globalSettings.ShouldExecutePreRun)
             {
                 _helpers.DisplaySection($"Pre-Run Started", true);
-                await PreRunImplAsync(opts);
+                preRunSuccess = await PreRunImplAsync(opts);
                 _helpers.DisplaySection($"Pre-Run Completed", true);
             }
 
-            _helpers.DisplaySection($" Run Started  @ {DateTime.UtcNow.ToLongTimeString()} UTC", true);
-            int returnVal = await RunImplAsync(opts);
-            _helpers.DisplaySection($"Run Completed @ {DateTime.UtcNow.ToLongTimeString()} UTC", true);
-            
-
-            if (_globalSettings.ShouldExecutePostRun)
+            if (preRunSuccess)
             {
-                _helpers.DisplaySection($"Post-Run Started", true);
-                await PostRunImplAsync(opts);
-                _helpers.DisplaySection($"Post-Run Completed", true);
+                _helpers.DisplaySection($" Run Started  @ {DateTime.UtcNow.ToLongTimeString()} UTC", true);
+                returnVal = await RunImplAsync(opts);
+                _helpers.DisplaySection($"Run Completed @ {DateTime.UtcNow.ToLongTimeString()} UTC", true);
+
+
+                if (_globalSettings.ShouldExecutePostRun)
+                {
+                    _helpers.DisplaySection($"Post-Run Started", true);
+                    await PostRunImplAsync(opts);
+                    _helpers.DisplaySection($"Post-Run Completed", true);
+                }
             }
 
             return returnVal;
@@ -86,7 +97,7 @@ namespace ConsoleTemplate.Generic
                                        if (!_globalSettings.ShouldForceSilentMode && !opts.Silent)
                                        {
                                            Console.Write($"<Continue? [Y/N]>");
-                                           
+
                                            while (returnVal == int.MaxValue)
                                            {
                                                switch (Console.ReadKey(true).Key)
@@ -111,6 +122,7 @@ namespace ConsoleTemplate.Generic
                                    catch (Exception ex)
                                    {
                                        HelpersStatic.DisplayException(ex);
+                                       if (!_globalSettings.ShouldForceSilentMode && !opts.Silent) _helpers.PressToContinue();
                                        returnVal = -3; // Unhandled error
                                    }
 

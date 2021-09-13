@@ -1,4 +1,5 @@
-﻿namespace ConsoleTemplate.Generic
+﻿
+namespace PgnArtist.Generic
 {
     public abstract class HeaderBase
     {
