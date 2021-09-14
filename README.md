@@ -1,2 +1,2 @@
 # TemplatesHD
-Templates
+[Templates Home](https://hyper-dragon.github.io/TemplatesHD/)
