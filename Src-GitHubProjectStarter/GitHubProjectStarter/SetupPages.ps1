@@ -43,15 +43,21 @@ Write-Output "   >> Updating head-custom.html"
                                                     -replace 'REPLACE_SITEROOT', $REPLACE_SITEROOT )`
                                                     | Set-Content -Path ".\copyToRoot\docs\_includes\head-custom.html"
 
+Write-Output "   >> Updating override.css"
+((Get-Content -path ".\copyToRoot\docs\assets\css\overrideTemplate.css" -Raw)`
+                                                    -replace 'REPLACE_SITEROOT', $REPLACE_SITEROOT )`
+                                                    | Set-Content -Path ".\copyToRoot\docs\assets\css\override.css"
+
 Write-Output "   >> Updating default.html"  
 ((Get-Content -path ".\copyToRoot\docs\_layouts\defaultTemplate.html" -Raw)`
                                                     -replace 'REPLACE_SPONSOR', $REPLACE_SPONSOR )`
                                                     | Set-Content -Path ".\copyToRoot\docs\_layouts\default.html"
 
 Write-Output "   >> Removing Pages Templates"
-Remove-Item .\copyToRoot\docs\indexTemplate.md                                 
-Remove-Item .\copyToRoot\docs\_includes\head-customTemplate.html
-Remove-Item .\copyToRoot\docs\_layouts\defaultTemplate.html                        
+Remove-Item ".\copyToRoot\docs\indexTemplate.md"                                 
+Remove-Item ".\copyToRoot\docs\_includes\head-customTemplate.html"
+Remove-Item ".\copyToRoot\docs\assets\css\overrideTemplate.css"
+Remove-Item ".\copyToRoot\docs\_layouts\defaultTemplate.html"                        
 Move-Item   .\copyToRoot\docs\RENAME.code-workspace  .\copyToRoot\docs\"$TITLE".code-workspace
 
 Write-Output ">> Pages Setup Complete"
