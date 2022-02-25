@@ -28,7 +28,7 @@ public abstract class HeaderBase
                     ForEach((line) =>
                     {
                         Console.WriteLine(
-                        line.Substring(0, Console.IsOutputRedirected ? line.Length : Math.Min(Console.WindowWidth - 2, line.Length)));
+                        line[..(Console.IsOutputRedirected ? line.Length : Math.Min(Console.WindowWidth - 2, line.Length))]);
                     });
         }
     }
